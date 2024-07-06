@@ -1,2 +1,2 @@
-# aws-dotnet-api
-AWS SDK
+# Projects using AWS and dotnet
+ - This Repository contains Projects related to AWS and dotnet.
