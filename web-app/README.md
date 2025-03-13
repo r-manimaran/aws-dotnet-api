@@ -43,3 +43,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ```bash
 npx create-next-app@latest web-app
 ```
+2. Create the S3 bucket
+3. Create a IAM user to be mapped and used in Git Hub secret.
+4. Download and save the Access Key and Secret Access Key securely.
+5. Grant Permission to S3 bucket
