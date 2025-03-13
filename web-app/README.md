@@ -37,3 +37,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 # Deploy Next JS App to AWS S3 using GitHub CI/CD
+
+## Steps:
+1. Create the NextJs Application using the command
+```bash
+npx create-next-app@latest web-app
+```
