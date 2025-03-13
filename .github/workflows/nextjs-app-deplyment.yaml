@@ -6,6 +6,8 @@ on:
         [ master ]
       paths:
         - 'web-app/**'
+    
+    workflow_dispatch:
 
 env:
 
