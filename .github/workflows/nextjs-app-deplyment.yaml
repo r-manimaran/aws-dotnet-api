@@ -45,5 +45,9 @@ jobs:
           - name: Deploy to AWS S3
             working-directory: ./web-app
             run: aws s3 sync out s3://${{secrets.AWS_BUCKET}} --delete
+        # step 7: Verify the deployment
+          - name: Verify deployment
+            run: |
+                aws s3 ls s3://${{secrets.AWS_BUCKET}} --recursive
         
 
