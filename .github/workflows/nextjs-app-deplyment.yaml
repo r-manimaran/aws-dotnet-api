@@ -9,8 +9,6 @@ on:
     
     workflow_dispatch:
 
-env:
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
