@@ -1,0 +1,6 @@
+@BatchOperations_HostAddress = http://localhost:5043
+
+GET {{BatchOperations_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

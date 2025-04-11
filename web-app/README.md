@@ -133,3 +133,10 @@ jobs:
 - Launch the application and see the next js app running from the S3 bucket.
 
 ![alt text](image.png)
+
+
+npm install next-auth@beta
+
+npm install jwt-decode
+
+npm install react-hook-form zod @hookform/resolvers
