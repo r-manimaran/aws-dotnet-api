@@ -1,7 +1,24 @@
 # Perform Batch Operations in AWS DynamoDB Tables
+This project demonstrates how to perform batch operations (read and write) with AWS DynamoDB using .NET Core. It showcases efficient ways to handle multiple items in a single request, reducing API calls and improving performance when working with DynamoDB tables.
+
+## Overview
+
+This application demonstrates:
+- Batch write operations (PutItem and DeleteItem)
+- Batch read operations across multiple tables
+- Handling unprocessed items and partial failures
+- Best practices for bulk data operations in DynamoDB
+
+## Prerequisites
+
+- AWS Account with appropriate permissions
+- .NET Core SDK
+- AWS CLI installed and configured
+- Basic understanding of DynamoDB concepts
+
 
 -  Install the dependent Nuget packages.
- 
+
 ```powershell
 Install-Package AWSSDK.Core
 Install-Package AWSSDK.DynamoDBv2
