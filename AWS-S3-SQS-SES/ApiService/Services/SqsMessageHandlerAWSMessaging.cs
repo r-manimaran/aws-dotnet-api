@@ -3,6 +3,7 @@ using Amazon.SQS;
 using ApiService.Models;
 using AWS.Messaging;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace ApiService.Services;
 
@@ -22,11 +23,15 @@ public class SqsMessageHandlerAWSMessaging : IMessageHandler<DocumentUploadedEve
         _settings = settings.Value;
     }
 
-    public async Task<MessageProcessStatus> HandleAsync(MessageEnvelope<DocumentUploadedEvent> messageEnvelope, CancellationToken token = default)
+    public async Task<MessageProcessStatus> HandleAsync(
+                MessageEnvelope<DocumentUploadedEvent> messageEnvelope, 
+                CancellationToken token = default)
     {
         try
         {
             var message = messageEnvelope.Message;
+            
+            _logger.LogInformation(JsonSerializer.Serialize(message));
 
             return MessageProcessStatus.Success();
         }

@@ -1,4 +1,4 @@
-# AWS S3-SQS-SES Integration API
+# AWS S3-SQS-SES Integration in .Net Web API
 
 A .NET 9 Web API demonstrating integration with AWS services (S3, SQS, SES) for document upload, storage, and notification processing.
 
@@ -100,7 +100,7 @@ Update `appsettings.json` with your AWS configuration:
 *SQS message processing*
 
 ![Viewer](image-6.png)
-*Application interface*
+*SQS message in Json Viewer*
 
 ![After using Background Service](image-7.png)
 *Background service processing results*

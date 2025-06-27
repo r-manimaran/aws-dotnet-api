@@ -1,6 +1,8 @@
 ﻿using ApiService.Models;
 using ApiService.Services;
+using AWS.Messaging.Publishers.SQS;
 using Microsoft.Extensions.Options;
+using static AWS.Messaging.Configuration.Internal.ApplicationSettings;
 
 namespace ApiService.Endpoints;
 
@@ -146,6 +148,31 @@ public static class DocumentEndpoints
             }
         }).DisableAntiforgery();
 
+
+        group.MapPost("publish-message", async (ISQSPublisher sqsPublisher, ILogger<Program> logger) =>
+        {
+            var @event = new DocumentUploadedEvent
+            {
+                FileName = "Test FileName.txt",
+                OriginalFileName = "test.txt",
+                CorrelationId = Guid.NewGuid().ToString()
+            };
+
+            await sqsPublisher.SendAsync(
+                new DocumentUploadedEvent
+                {
+                    EventType = "DocumentUploadedEvent",
+                    FileName = "Test FileName.txt",
+                    OriginalFileName = "test.txt",
+                    CorrelationId = Guid.NewGuid().ToString()
+                }
+                //,
+                //new SQSOptions
+                //{
+                //    MessageGroupId = "1"
+                //}
+                );
+        });
 
     }
 }

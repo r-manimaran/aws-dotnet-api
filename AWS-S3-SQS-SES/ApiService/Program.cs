@@ -39,12 +39,21 @@ builder.Services.AddTransient<IEventHandler<DocumentUploadedEvent>, DocumentUplo
 builder.Services.AddTransient<IMessageHandlerFactory, MessageHandlerFactory>();
 
 // Register background Service
-// builder.Services.AddHostedService<SqsMessageHandler>();
+builder.Services.AddHostedService<SqsMessageHandler>();
+
+// Un-Comment the below section to use AWS Messaging Handler
+// Same way we need to use SqsPublisher to publish
 
 builder.Services.AddAWSMessageBus(bus =>
 {
+    bus.AddSQSPublisher<DocumentUploadedEvent>(builder.Configuration.GetSection("SqsSettings:QueueUrl").Value);
+   
     bus.AddMessageHandler<SqsMessageHandlerAWSMessaging, DocumentUploadedEvent>();
-});
+
+    bus.AddSQSPoller(builder.Configuration.GetSection("SqsSettings:QueueUrl").Value);
+
+    bus.ConfigureBackoffPolicy(opt=> opt.UseCappedExponentialBackoff());
+}); 
 
 var app = builder.Build();
 
