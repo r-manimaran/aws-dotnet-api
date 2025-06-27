@@ -43,7 +43,7 @@ builder.Services.AddHostedService<SqsMessageHandler>();
 
 // Un-Comment the below section to use AWS Messaging Handler
 // Same way we need to use SqsPublisher to publish
-
+/*
 builder.Services.AddAWSMessageBus(bus =>
 {
     bus.AddSQSPublisher<DocumentUploadedEvent>(builder.Configuration.GetSection("SqsSettings:QueueUrl").Value);
@@ -53,7 +53,7 @@ builder.Services.AddAWSMessageBus(bus =>
     bus.AddSQSPoller(builder.Configuration.GetSection("SqsSettings:QueueUrl").Value);
 
     bus.ConfigureBackoffPolicy(opt=> opt.UseCappedExponentialBackoff());
-}); 
+}); */
 
 var app = builder.Build();
 
