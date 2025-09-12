@@ -126,7 +126,7 @@ public static class OrdersEndpoints
 
             return Results.Ok();
 
-        }).WithName("EventBridgePublisher");*/
+        }).WithName("EventBridgePublisher");
 
     }
 }
