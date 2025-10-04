@@ -1,0 +1,131 @@
+{
+  "version": "41.0.0",
+  "artifacts": {
+    "OrderServiceStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "OrderServiceStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "OrderServiceStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "OrderServiceStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5b53b8b1ae69ad547dff9bcd89bcfd1f80f42f8abeacc24cdb4e7cabc1f65b3b.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "OrderServiceStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "OrderServiceStack.assets"
+      ],
+      "metadata": {
+        "/OrderServiceStack/OrdersBillingQueueDLQ/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueueDLQD90CCD62"
+          }
+        ],
+        "/OrderServiceStack/OrdersBillingQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueueFCDF62E8"
+          }
+        ],
+        "/OrderServiceStack/OrdersBillingQueue/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueuePolicy2C5BDA7A"
+          }
+        ],
+        "/OrderServiceStack/OrdersBillingQueue/OrderServiceStackOrdersTopic4C8E6A6D/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueueOrderServiceStackOrdersTopic4C8E6A6DBA36D3D9"
+          }
+        ],
+        "/OrderServiceStack/OrdersShippingQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersShippingQueue74551179"
+          }
+        ],
+        "/OrderServiceStack/OrdersShippingQueue/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersShippingQueuePolicy10243380"
+          }
+        ],
+        "/OrderServiceStack/OrdersShippingQueue/OrderServiceStackOrdersTopic4C8E6A6D/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersShippingQueueOrderServiceStackOrdersTopic4C8E6A6D91212A8B"
+          }
+        ],
+        "/OrderServiceStack/OrdersTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersTopic47790A41"
+          }
+        ],
+        "/OrderServiceStack/OrdersBillingQueueDLQC5C0FFE4QueueUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueueDLQC5C0FFE4QueueUrl"
+          }
+        ],
+        "/OrderServiceStack/OrdersBillingQueue67DDAC34QueueUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersBillingQueue67DDAC34QueueUrl"
+          }
+        ],
+        "/OrderServiceStack/OrdersShippingQueueC480C60CQueueUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersShippingQueueC480C60CQueueUrl"
+          }
+        ],
+        "/OrderServiceStack/OrdersTopic4C8E6A6DTopicArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OrdersTopic4C8E6A6DTopicArn"
+          }
+        ],
+        "/OrderServiceStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/OrderServiceStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "OrderServiceStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

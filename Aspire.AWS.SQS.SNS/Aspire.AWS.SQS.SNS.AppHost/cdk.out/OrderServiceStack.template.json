@@ -1,0 +1,184 @@
+{
+ "Resources": {
+  "OrdersBillingQueueDLQD90CCD62": {
+   "Type": "AWS::SQS::Queue",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "OrdersBillingQueueFCDF62E8": {
+   "Type": "AWS::SQS::Queue",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "OrdersBillingQueuePolicy2C5BDA7A": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Condition": {
+        "ArnEquals": {
+         "aws:SourceArn": {
+          "Ref": "OrdersTopic47790A41"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sns.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "OrdersBillingQueueFCDF62E8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "OrdersBillingQueueFCDF62E8"
+     }
+    ]
+   }
+  },
+  "OrdersBillingQueueOrderServiceStackOrdersTopic4C8E6A6DBA36D3D9": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "OrdersBillingQueueFCDF62E8",
+      "Arn"
+     ]
+    },
+    "Protocol": "sqs",
+    "TopicArn": {
+     "Ref": "OrdersTopic47790A41"
+    }
+   },
+   "DependsOn": [
+    "OrdersBillingQueuePolicy2C5BDA7A"
+   ]
+  },
+  "OrdersShippingQueue74551179": {
+   "Type": "AWS::SQS::Queue",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "OrdersShippingQueuePolicy10243380": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Condition": {
+        "ArnEquals": {
+         "aws:SourceArn": {
+          "Ref": "OrdersTopic47790A41"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sns.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "OrdersShippingQueue74551179",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "OrdersShippingQueue74551179"
+     }
+    ]
+   }
+  },
+  "OrdersShippingQueueOrderServiceStackOrdersTopic4C8E6A6D91212A8B": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "OrdersShippingQueue74551179",
+      "Arn"
+     ]
+    },
+    "Protocol": "sqs",
+    "TopicArn": {
+     "Ref": "OrdersTopic47790A41"
+    }
+   },
+   "DependsOn": [
+    "OrdersShippingQueuePolicy10243380"
+   ]
+  },
+  "OrdersTopic47790A41": {
+   "Type": "AWS::SNS::Topic"
+  }
+ },
+ "Outputs": {
+  "OrdersBillingQueueDLQC5C0FFE4QueueUrl": {
+   "Value": {
+    "Ref": "OrdersBillingQueueDLQD90CCD62"
+   }
+  },
+  "OrdersBillingQueue67DDAC34QueueUrl": {
+   "Value": {
+    "Ref": "OrdersBillingQueueFCDF62E8"
+   }
+  },
+  "OrdersShippingQueueC480C60CQueueUrl": {
+   "Value": {
+    "Ref": "OrdersShippingQueue74551179"
+   }
+  },
+  "OrdersTopic4C8E6A6DTopicArn": {
+   "Value": {
+    "Ref": "OrdersTopic47790A41"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
