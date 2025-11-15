@@ -15,8 +15,14 @@ public class Function
     {
        _resolver = new BedrockAgentFunctionResolver();
 
-       _resolver.Tool("getWeatherForCity", (string cityName) =>  $"The weather in {cityName} is sunny with a high of 75°F.");
+       _resolver.Tool("getWeatherForCity", (string cityName) =>  $"The weather in {cityName} is sunny.");
+       _resolver.Tool("getTemperatureForCity", GetTemperatureForCity);
         
+    }
+
+    private string GetTemperatureForCity(string cityName,BedrockFunctionRequest request, ILambdaContext? context)
+    {
+       return $"The temperature in {cityName} is {Random.Shared.Next(-20, 45)} *C degrees.";
     }
 
     /// <summary>
