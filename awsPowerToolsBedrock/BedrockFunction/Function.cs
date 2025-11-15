@@ -22,7 +22,9 @@ public class Function
 
     private string GetTemperatureForCity(string cityName,BedrockFunctionRequest request, ILambdaContext? context)
     {
-       return $"The temperature in {cityName} is {Random.Shared.Next(-20, 45)} *C degrees.";
+        context?.Logger.LogInformation("Received request for temperature in {city}", cityName);
+
+        return $"The temperature in {cityName} is {Random.Shared.Next(-20, 45)} *C degrees.";
     }
 
     /// <summary>
@@ -33,6 +35,7 @@ public class Function
     /// <returns></returns>
     public BedrockFunctionResponse FunctionHandler(BedrockFunctionRequest input, ILambdaContext context)
     {
+        
         return _resolver.Resolve(input, context);
     }
 }
