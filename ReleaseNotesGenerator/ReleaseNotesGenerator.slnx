@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path="release-notes-trigger.yaml" />
+  </Folder>
+  <Project Path="ReleaseNotesApp/ReleaseNotesApp.csproj" />
+</Solution>

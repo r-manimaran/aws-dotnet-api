@@ -1,0 +1,44 @@
+{
+  "resource": "/",
+  "path": "/",
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "multiValueHeaders": {},
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "123456",
+    "resourcePath": "/",
+    "httpMethod": "POST",
+    "extendedRequestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+    "requestTime": "09/Apr/2015:12:34:56 +0000",
+    "path": "/Prod/",
+    "accountId": "123456789012",
+    "protocol": "HTTP/1.1",
+    "stage": "Prod",
+    "domainPrefix": "1234567890",
+    "requestTimeEpoch": 1428582896000,
+    "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "accessKey": null,
+      "sourceIp": "127.0.0.1",
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "Custom User Agent String",
+      "user": null
+    },
+    "domainName": "1234567890.execute-api.us-east-1.amazonaws.com",
+    "apiId": "1234567890"
+  },
+  "body": "{\"releaseUrl\":\"http://github.com/r-manimaran/xyz\",\"tagName\":\"v1.0\",\"targetEmails\": [\"devops@example.com\", \"team@example.com\"],\"snsArn\": \"arn:aws:sns:us-east-1:123456789012:release-topic\"}",
+  "isBase64Encoded": false
+}
