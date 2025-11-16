@@ -1,0 +1,49 @@
+name: Trigger Release Notes Generation
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+jobs:
+  call-api-gateway:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract tag details
+        id: taginfo
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+          RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
+          echo "release_url=$RELEASE_URL" >> $GITHUB_OUTPUT
+          
+      - name: Prepare JSON payload
+        id: prepare_payload
+        run: |
+          cat <<EOF > payload.json
+          {
+            "releaseUrl": "${{ steps.taginfo.outputs.release_url }}",
+            "tagName":    "${{ steps.taginfo.outputs.tag_name }}",
+            "emailList":  [${EMAIL_LIST}],
+            "snsArn":     "${SNS_ARN}"
+          }
+          EOF
+        env:
+          EMAIL_LIST: ${{ secrets.RELEASE_NOTIFY_EMAILS }}   # example: "\"dev@x.com\",\"team@x.com\""
+          SNS_ARN: ${{ secrets.RELEASE_SNS_ARN }}
+
+      - name: Call API Gateway to trigger release notes generation
+        run: |
+          curl -X POST \
+               -H "x-api-key: ${{ secrets.API_GATEWAY_KEY }}" \
+               -H "Content-Type: application/json" \
+               -d @payload.json \
+               "${{ secrets.API_GATEWAY_URL }}/trigger"
+
+      - name: Show request Payload
+        if: always()
+        run: cat payload.json
