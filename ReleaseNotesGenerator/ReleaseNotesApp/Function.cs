@@ -13,7 +13,7 @@ public class Function
 {
     private readonly IAmazonStepFunctions _stepFunctionsClient;
 
-    private const string StateMachineArn = "";
+    private const string StateMachineArn = "arn:aws:states:us-east-1:395109667422:stateMachine:releasenotes-generation";
 
     public Function()
     {

@@ -3,5 +3,10 @@
   <Folder Name="/.github/workflows/">
     <File Path="release-notes-trigger.yaml" />
   </Folder>
+  <Project Path="CheckReleaseExists/CheckReleaseExists.csproj" />
+  <Project Path="GenerateReleaseNotes/GenerateReleaseNotes.csproj" />
+  <Project Path="GetGithubContent/GetGithubContent.csproj" />
   <Project Path="ReleaseNotesApp/ReleaseNotesApp.csproj" />
+  <Project Path="SaveToS3/SaveToS3.csproj" />
+  <Project Path="ShaedLib/SharedLib.csproj" Id="fea35969-7a1f-4567-ac4c-6fd3527e65e1" />
 </Solution>

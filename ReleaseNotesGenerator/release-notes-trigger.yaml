@@ -1,9 +1,8 @@
 name: Trigger Release Notes Generation
 on:
   push:
-    branches:
-      - main
-      - 'releases/**'
+    tags:
+      - "v*.*.*"
 jobs:
   call-api-gateway:
     runs-on: ubuntu-latest
@@ -17,6 +16,7 @@ jobs:
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
           RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
           echo "release_url=$RELEASE_URL" >> $GITHUB_OUTPUT
@@ -28,7 +28,7 @@ jobs:
           {
             "releaseUrl": "${{ steps.taginfo.outputs.release_url }}",
             "tagName":    "${{ steps.taginfo.outputs.tag_name }}",
-            "emailList":  [${EMAIL_LIST}],
+            "targetEmails": [${EMAIL_LIST}],
             "snsArn":     "${SNS_ARN}"
           }
           EOF
