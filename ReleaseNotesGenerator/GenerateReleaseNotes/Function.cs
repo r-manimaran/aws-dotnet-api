@@ -68,6 +68,8 @@ public class Function
 
         return new ReleaseNotesOutput
         {
+
+            TagName = input.Tag,
             ExecutiveSummary = parsed.ExecutiveSummary,
             TechnicalDetails = parsed.TechnicalDetails,
             RawAiResponse = resultText

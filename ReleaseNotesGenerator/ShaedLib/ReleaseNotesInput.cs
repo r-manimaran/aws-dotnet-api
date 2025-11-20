@@ -20,6 +20,7 @@ public class ReleaseNotesInput : ReleaseWorkflowInput
 
 public class  ReleaseNotesOutput 
 {
+    public string TagName { get; set; }
     public string ExecutiveSummary { get; set; }
     public string TechnicalDetails { get; set; }
     public string RawAiResponse { get; set; }

@@ -28,17 +28,17 @@ public class Function
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
     public async Task<APIGatewayProxyResponse> FunctionHandler(
-        APIGatewayProxyRequest request, 
+        TriggerRequest request, 
         ILambdaContext context)
     {
         try
         {
-            if (string.IsNullOrEmpty(request.Body))
+            if (string.IsNullOrEmpty(request.ReleaseUrl))
             {
                 return BadRequest("Request body is required.");
             }
 
-            var input = JsonSerializer.Deserialize<TriggerRequest>(request.Body);
+            var input = request;
 
             if(input == null || string.IsNullOrEmpty(input.ReleaseUrl) || 
                string.IsNullOrEmpty(input.TagName) || 
@@ -57,12 +57,12 @@ public class Function
                 targetEmails = input.TargetEmails,
                 snsArn = input.SnsArn
             });
-            /*
+            context.Logger.LogLine($"Starting Step Function with input: {startExecutionRequest}");
             var startExec = await _stepFunctionsClient.StartExecutionAsync(new Amazon.StepFunctions.Model.StartExecutionRequest
             {
                 StateMachineArn = StateMachineArn,
                 Input = startExecutionRequest
-            }); */
+            }); 
 
             return new APIGatewayProxyResponse
             {

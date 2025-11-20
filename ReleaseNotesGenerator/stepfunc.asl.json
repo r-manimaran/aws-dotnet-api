@@ -1,132 +1,134 @@
 {
-	"Comment": "A description of my state machine",
-	"StartAt": "CheckReleaseExists",
-	"States": {
-		"CheckReleaseExists": {
-			"Type": "Task",
-			"Resource": "arn:aws:states:::lambda:invoke",
-			"Output": "{% $states.result.Payload %}",
-			"Arguments": {
-				"FunctionName": "arn:aws:lambda:us-east-1:395109667422:function:GetHelloWorldWithName:$LATEST",
-				"Payload": "{% $states.input %}"
-			},
-			"Retry": [
-				{
-					"ErrorEquals": [
-						"Lambda.ServiceException",
-						"Lambda.AWSLambdaException",
-						"Lambda.SdkClientException",
-						"Lambda.TooManyRequestsException"
-					],
-					"IntervalSeconds": 1,
-					"MaxAttempts": 3,
-					"BackoffRate": 2,
-					"JitterStrategy": "FULL"
-				}
-			],
-			"Next": "ParseCheckResult"
-		},
-		"ParseCheckResult": {
-			"Type": "Pass",
-			"Next": "ReleaseExistsChoice"
-		},
-		"ReleaseExistsChoice": {
-			"Type": "Choice",
-			"Choices": [
-				{
-					"Next": "AlreadyExists"
-				}
-			],
-			"Default": "GetGitHubContent"
-		},
-		"AlreadyExists": {
-			"Type": "Pass",
-			"End": true
-		},
-		"GetGitHubContent": {
-			"Type": "Task",
-			"Resource": "arn:aws:states:::lambda:invoke",
-			"Output": "{% $states.result.Payload %}",
-			"Arguments": {
-				"FunctionName": "",
-				"Payload": "{% $states.input %}"
-			},
-			"Retry": [
-				{
-					"ErrorEquals": [
-						"Lambda.ServiceException",
-						"Lambda.AWSLambdaException",
-						"Lambda.SdkClientException",
-						"Lambda.TooManyRequestsException"
-					],
-					"IntervalSeconds": 1,
-					"MaxAttempts": 3,
-					"BackoffRate": 2,
-					"JitterStrategy": "FULL"
-				}
-			],
-			"Next": "ParseGitlabData"
-		},
-		"ParseGitlabData": {
-			"Type": "Pass",
-			"Next": "GenerateReleaseNotes"
-		},
-		"GenerateReleaseNotes": {
-			"Type": "Task",
-			"Resource": "arn:aws:states:::lambda:invoke",
-			"Output": "{% $states.result.Payload %}",
-			"Arguments": {
-				"FunctionName": "",
-				"Payload": "{% $states.input %}"
-			},
-			"Retry": [
-				{
-					"ErrorEquals": [
-						"Lambda.ServiceException",
-						"Lambda.AWSLambdaException",
-						"Lambda.SdkClientException",
-						"Lambda.TooManyRequestsException"
-					],
-					"IntervalSeconds": 1,
-					"MaxAttempts": 3,
-					"BackoffRate": 2,
-					"JitterStrategy": "FULL"
-				}
-			],
-			"Next": "ParseAIResult"
-		},
-		"ParseAIResult": {
-			"Type": "Pass",
-			"Next": "SaveToS3"
-		},
-		"SaveToS3": {
-			"Type": "Task",
-			"Resource": "arn:aws:states:::lambda:invoke",
-			"Output": "{% $states.result.Payload %}",
-			"Arguments": {
-				"FunctionName": "",
-				"Payload": "{% $states.input %}"
-			},
-			"Retry": [
-				{
-					"ErrorEquals": [
-						"Lambda.ServiceException",
-						"Lambda.AWSLambdaException",
-						"Lambda.SdkClientException",
-						"Lambda.TooManyRequestsException"
-					],
-					"IntervalSeconds": 1,
-					"MaxAttempts": 3,
-					"BackoffRate": 2,
-					"JitterStrategy": "FULL"
-				}
-			],
-			"Next": "Success"
-		},
-		"Success": {
-			"Type": "Pass",
-			"End": true
-		}
-	},
-	"QueryLanguage": "JSONata"
+    "Comment": "A description of my state machine",
+    "StartAt": "CheckReleaseExists",
+    "States": {
+        "CheckReleaseExists": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Output": "{% $states.result.Payload %}",
+            "Arguments": {
+                "FunctionName": "arn:aws:lambda:us-east-1:395109667422:function:CheckReleaseExists:$LATEST",
+                "Payload": "{% $states.input %}"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2,
+                    "JitterStrategy": "FULL"
+                }
+            ],
+            "Next": "ParseCheckResult",
+            "Comment": "Check the github tag exists"
+        },
+        "ParseCheckResult": {
+            "Type": "Pass",
+            "Next": "ReleaseExistsChoice"
+        },
+        "ReleaseExistsChoice": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Next": "AlreadyExists",
+                    "Condition": "{% ($ReleaseExists) = false %}"
+                }
+            ],
+            "Default": "GetGitHubContent"
+        },
+        "AlreadyExists": {
+            "Type": "Pass",
+            "End": true
+        },
+        "GetGitHubContent": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Output": "{% $states.result.Payload %}",
+            "Arguments": {
+                "FunctionName": "arn:aws:lambda:us-east-1:395109667422:function:GetGithubContent:$LATEST",
+                "Payload": "{% $states.input %}"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2,
+                    "JitterStrategy": "FULL"
+                }
+            ],
+            "Next": "ParseGitlabData"
+        },
+        "ParseGitlabData": {
+            "Type": "Pass",
+            "Next": "GenerateReleaseNotes"
+        },
+        "GenerateReleaseNotes": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Output": "{% $states.result.Payload %}",
+            "Arguments": {
+                "FunctionName": "arn:aws:lambda:us-east-1:395109667422:function:GenerateReleaseNotes:$LATEST",
+                "Payload": "{% $states.input %}"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2,
+                    "JitterStrategy": "FULL"
+                }
+            ],
+            "Next": "ParseAIResult"
+        },
+        "ParseAIResult": {
+            "Type": "Pass",
+            "Next": "SaveToS3"
+        },
+        "SaveToS3": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Output": "{% $states.result.Payload %}",
+            "Arguments": {
+                "FunctionName": "arn:aws:lambda:us-east-1:395109667422:function:SaveToS3:$LATEST",
+                "Payload": "{% $states.input %}"
+            },
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException",
+                        "Lambda.TooManyRequestsException"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 2,
+                    "JitterStrategy": "FULL"
+                }
+            ],
+            "Next": "Success"
+        },
+        "Success": {
+            "Type": "Pass",
+            "End": true
+        }
+    },
+    "QueryLanguage": "JSONata"
 }

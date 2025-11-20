@@ -23,6 +23,14 @@ public class Function
     /// <returns></returns>
     public async Task<ReleaseGitHubContentOutput> FunctionHandler(ReleaseWorkflowInput input, ILambdaContext context)
     {
+        // Add debugging
+        context.Logger.LogLine($"Input received: {JsonSerializer.Serialize(input)}");
+        if (input == null)
+            throw new ArgumentNullException(nameof(input), "Input cannot be null");
+    
+        if (string.IsNullOrEmpty(input.ReleaseUrl))
+            throw new ArgumentNullException(nameof(input.ReleaseUrl), "ReleaseUrl cannot be null or empty");
+
         var token = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
         var apiBase = Environment.GetEnvironmentVariable("GITHUB_API_URL") ?? "https://api.github.com";
 
