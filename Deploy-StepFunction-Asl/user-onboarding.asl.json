@@ -1,0 +1,87 @@
+{
+    "Comment": "A description of my state machine",
+    "StartAt": "Pass",
+    "States": {
+        "Pass": {
+            "Type": "Pass",
+            "Assign": {
+                "user": "{% $states.input.user%}"
+            },
+            "Next": "SaveUserToDB"
+        },
+        "SaveUserToDB": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::dynamodb:putItem",
+            "Arguments": {
+                "TableName": "registration",
+                "Item": {
+                    "PK": {
+                        "S": "{% $user.userId %}"
+                    },
+                    "SK": {
+                        "S": "PROFILE"
+                    },
+                    "userId": {
+                        "S": "{% $user.userId %}"
+                    },
+                    "email": {
+                        "S": "{% $user.email %}"
+                    },
+                    "name": {
+                        "S": "{% $user.name %}"
+                    },
+                    "signupDate": {
+                        "S": "{% $user.signupDate %}"
+                    },
+                    "source": {
+                        "S": "{% $user.source %}"
+                    },
+                    "metadata": {
+                        "M": {
+                            "referralCode": {
+                                "S": "{% $user.metadata.referralCode %}"
+                            },
+                            "country": {
+                                "S": "{% $user.metadata.country %}"
+                            }
+                        }
+                    }
+                }
+            },
+            "Next": "SQS SendMessage"
+        },
+        "SQS SendMessage": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::sqs:sendMessage",
+            "Arguments": {
+                "QueueUrl": "https://sqs.us-east-1.amazonaws.com/395109667422/onboarding-queue",
+                "MessageBody": {
+                    "type": "UserOnboarding",
+                    "userId": "{% $user.userId %}",
+                    "signupDate": "{% $user.signupDate %}",
+                    "createdDate": "{% $now() %}"
+                }
+            },
+            "Next": "Choice"
+        },
+        "Choice": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Next": "Pass (1)",
+                    "Condition": "{% $exists($user.metadata.referralCode) and $length($user.metadata.referralCode) > 0 %}"
+                }
+            ],
+            "Default": "Pass (2)"
+        },
+        "Pass (1)": {
+            "Type": "Pass",
+            "End": true
+        },
+        "Pass (2)": {
+            "Type": "Pass",
+            "End": true
+        }
+    },
+    "QueryLanguage": "JSONata"
+}
