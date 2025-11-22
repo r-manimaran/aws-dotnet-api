@@ -1,0 +1,25 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5190",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SIGNUP_STATE_MACHINE_ARN": "arn:aws:states:us-west-2:123456789012:stateMachine:OnboardingSignupStateMachine"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7254;http://localhost:5190",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SIGNUP_STATE_MACHINE_ARN": "arn:aws:states:us-west-2:123456789012:stateMachine:OnboardingSignupStateMachine"
+      }
+    }
+  }
+}
