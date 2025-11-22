@@ -25,6 +25,14 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{ secrets.AWS_REGION }}
 
+            - name: Verify AWS credentials
+              run: |
+                echo "Testing AWS credentials..."
+                aws sts get-caller-identity
+                echo "AWS CLI version:"
+                aws --version
+                echo "Current region: $AWS_DEFAULT_REGION"
+
             - name: Deploy ASL Step Function
               run: |
                 echo "Deploying ASL Step Function..."
