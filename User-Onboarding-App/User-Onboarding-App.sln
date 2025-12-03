@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36705.20 d17.14
+VisualStudioVersion = 17.14.36705.20
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnboardingSignup", "OnboardingSignup\OnboardingSignup.csproj", "{9AC890C8-B23D-47EE-AF0F-B8C7E9D84836}"
 EndProject
@@ -30,6 +30,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{C516860C-9688-4162-B6DF-0B27DA215085}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{4E19B5A9-6F24-4770-B43B-E7EEDB3FAA5E}"
+	ProjectSection(SolutionItems) = preProject
+		useronboarding.asl.json = useronboarding.asl.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
