@@ -1,0 +1,28 @@
+pipeline {
+    agent { label 'angular'}
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/r-manimaran/aws-dotnet-api.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('angular-jenkins-s3') {
+                    sh 'npm install'
+                    sh 'npx ng build'
+                }
+            }
+        }
+        stage('S3 Upload'){
+            steps {
+                dir('angular-jenkins-s3') {
+                    withAWS(credentials:'aws-creds',region:'us-east-1'){
+                        sh 'aws s3 cp dist/angular-jenkins-s3/browser/. s3://maran-angular-jenkins-app/ --recursive'
+                    }
+                }
+            }
+        }
+    }
+}
