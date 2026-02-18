@@ -1,4 +1,3 @@
-
 variable "project" {
     description = "The name of the project"
     type        = string
@@ -9,12 +8,6 @@ variable "environment" {
     description = "The environment (e.g., dev, staging, prod)"
     type        = string
     default     = "dev"
-}
-
-variable "private_subnet_ids" {
-    description = "List of private subnet IDs for the ALB"
-    type        = list(string)
-    default     = []
 }
 
 variable "common_tags" {
