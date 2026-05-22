@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SecretsFetcher": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
